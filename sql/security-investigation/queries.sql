@@ -1,33 +1,52 @@
--- Failed login attempts after 18:00
+-- ============================================
+-- SQL Security Log Investigation
+-- ============================================
+
+-- 1. Retrieve all failed login attempts
 SELECT *
 FROM log_in_attempts
-WHERE login_time > '18:00'
-AND success = FALSE;
+WHERE success = FALSE;
 
--- Login attempts on specific dates
+
+-- 2. Retrieve login attempts outside business hours (before 08:00 or after 18:00)
 SELECT *
 FROM log_in_attempts
-WHERE login_date = '2022-05-09'
-OR login_date = '2022-05-08';
+WHERE login_time < '08:00:00'
+   OR login_time > '18:00:00';
 
--- Login attempts outside Mexico
+
+-- 3. Retrieve login attempts from outside the United States
 SELECT *
 FROM log_in_attempts
-WHERE NOT country LIKE 'MEX%';
+WHERE country != 'United States';
 
--- Marketing employees in East office
+
+-- 4. Retrieve employees from the IT department
 SELECT *
 FROM employees
-WHERE department = 'Marketing'
-AND office LIKE 'East%';
+WHERE department = 'IT';
 
--- Employees in Sales or Finance
+
+-- 5. Retrieve employees located in the New York office
 SELECT *
 FROM employees
-WHERE department = 'Sales'
-OR department = 'Finance';
+WHERE office = 'New York';
 
--- Employees not in IT
+
+-- 6. Retrieve employees from Finance or Sales departments
 SELECT *
 FROM employees
-WHERE department != 'Information Technology';
+WHERE department = 'Finance'
+   OR department = 'Sales';
+
+
+-- 7. Retrieve employees NOT in the HR department
+SELECT *
+FROM employees
+WHERE department != 'HR';
+
+
+-- 8. Retrieve employees whose name starts with 'A'
+SELECT *
+FROM employees
+WHERE name LIKE 'A%';
