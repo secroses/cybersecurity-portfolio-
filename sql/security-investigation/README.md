@@ -1,68 +1,114 @@
 # SQL Security Log Investigation
 
-## 1. Description
+## Overview
 
-This lab simulates a basic security investigation using SQL.  
-Authentication logs and employee records were analyzed to identify suspicious login activity and apply structured data filtering techniques.
+This project simulates a real-world security investigation using SQL to analyze login activity and employee records.
 
-The project reflects tasks commonly performed by a Tier 1 SOC Analyst during log review and incident investigation.
-
----
-
-## 2. Objective
-
-The objective of this investigation was to:
-
-- Identify failed login attempts after business hours
-- Analyze login activity on specific dates
-- Detect login attempts originating outside Mexico
-- Filter employee records by department and office location
+The objective is to identify suspicious login attempts, detect activity outside business hours, and filter employee information based on specific security-related criteria.
 
 ---
 
-## 3. Queries Performed
+## Scenario
 
-The investigation included:
+The organization detected unusual login attempts and requested an internal investigation.
 
-- Filtering login attempts by time and success status
-- Filtering records using specific dates
-- Pattern matching using `LIKE` and wildcard `%`
-- Combining conditions using `AND` and `OR`
-- Excluding data using `NOT` and `!=`
+As a security analyst, the task was to:
 
-The complete SQL script is available in the `queries.sql` file.
+- Review login activity records
+- Identify failed login attempts
+- Detect logins outside business hours
+- Filter employees by department and office location
 
----
-
-## 4. Technical Explanation
-
-- `AND` was used to combine multiple filtering conditions.
-- `OR` allowed retrieving records matching different criteria.
-- `NOT` excluded specific values from results.
-- `LIKE` enabled pattern matching for structured values such as country codes.
-- `%` acted as a wildcard to represent any number of characters.
-- Date and time filtering allowed targeted log analysis.
+The analysis was performed using structured SQL queries.
 
 ---
 
-## 5. Security Relevance
+## Objectives
 
-This lab demonstrates how SQL can support:
-
-- Log review processes
-- Detection of suspicious login behavior
-- Investigation of unauthorized access attempts
-- Structured data analysis for incident response
-
-Understanding how to query authentication logs is a foundational skill in cybersecurity operations.
+- Analyze authentication logs
+- Identify suspicious login patterns
+- Apply conditional filtering (AND, OR, NOT, LIKE)
+- Extract relevant employee data for further review
 
 ---
 
-## 6. Skills Demonstrated
+## Database Tables Used
 
-- SQL query construction
-- Logical operators (`AND`, `OR`, `NOT`)
-- Pattern matching with `LIKE`
-- Log analysis fundamentals
-- Security-focused data filtering
-- Analytical thinking
+### `log_in_attempts`
+
+| Column | Description |
+|--------|------------|
+| employee_id | Unique employee identifier |
+| login_date | Date of login attempt |
+| login_time | Time of login attempt |
+| country | Country of login |
+| success | Login status (TRUE/FALSE) |
+
+### `employees`
+
+| Column | Description |
+|--------|------------|
+| employee_id | Unique employee identifier |
+| name | Employee name |
+| department | Department name |
+| office | Office location |
+
+---
+
+## Investigation Queries
+
+The full SQL script used in this investigation is available here:
+
+🔗 **[View Full SQL Script](queries.sql)**
+
+---
+
+## Query Breakdown
+
+### 1️⃣ Retrieve all failed login attempts
+
+Identifies unsuccessful authentication attempts that may indicate brute-force attacks or unauthorized access attempts.
+
+---
+
+### 2️⃣ Retrieve login attempts outside business hours
+
+Detects logins before 08:00 or after 18:00, which may indicate suspicious behavior.
+
+---
+
+### 3️⃣ Retrieve logins from outside the country
+
+Identifies login attempts that originated from outside the organization's main operating country.
+
+---
+
+### 4️⃣ Retrieve employees from specific departments
+
+Filters employees working in departments relevant to the investigation.
+
+---
+
+## Skills Demonstrated
+
+- SQL data filtering
+- Logical operators (AND, OR, NOT)
+- Pattern matching using LIKE
+- Security log analysis
+- Incident investigation methodology
+- Structured technical documentation
+
+---
+
+## Tools Used
+
+- SQL (Structured Query Language)
+- Relational Database Environment
+- Git & GitHub for version control
+
+---
+
+## Author
+
+Yair  
+Cybersecurity Student
