@@ -1,0 +1,27 @@
+# SQL Security Log Investigation
+
+## 📌 Project Overview
+
+This project simulates a basic security investigation using SQL queries.  
+The objective is to analyze login attempt records and employee data to identify suspicious activity and support incident response processes.
+
+The investigation focuses on filtering login attempts based on time, date, country, and success status using SQL operators such as AND, OR, NOT, and LIKE.
+
+---
+
+## 🗂 Dataset Tables
+
+The queries were performed on the following tables:
+
+- `log_in_attempts`
+- `employees`
+
+---
+
+## 1️⃣ Failed Login Attempts After 18:00
+
+```sql
+SELECT *
+FROM log_in_attempts
+WHERE login_time > '18:00'
+AND success = FALSE;
