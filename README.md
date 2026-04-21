@@ -1,6 +1,6 @@
 # Cybersecurity Portfolio
 
-**oblivionroot** · Cybersecurity & IT student · Mexico City
+**SECROSES** · Cybersecurity & IT student · Mexico City
 
 Hands-on security research and lab work built while pursuing a B.S. in Information Technologies (Universidad Nacional Rosario Castellanos) and independent cybersecurity training. Current focus: SOC analysis, threat detection, and AI security.
 
