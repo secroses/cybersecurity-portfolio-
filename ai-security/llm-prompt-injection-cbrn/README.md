@@ -2,7 +2,7 @@
 
 | Field | Details |
 |---|---|
-| **Author** | oblivionroot |
+| **Author** | Secroses    |
 | **Date** | April 9, 2026 |
 | **Threat Vector** | AI Prompt Injection |
 | **OWASP LLM Risk** | LLM01 (Direct Prompt Injection) · LLM02 (Sensitive Information Disclosure) |
