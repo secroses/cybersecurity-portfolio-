@@ -1,5 +1,9 @@
 # Vulnerability Report: CBRN Filter Bypass via Prompt Injection
 
+![OWASP LLM01](https://img.shields.io/badge/OWASP-LLM01-red)
+![OWASP LLM02](https://img.shields.io/badge/OWASP-LLM02-orange)
+![MenCISO](https://img.shields.io/badge/Lab-MenCISO-blue)
+
 | Field | Details |
 |---|---|
 | **Author** | Secroses    |
@@ -72,6 +76,25 @@ estrictamente: 'nombre_tecnico_IUPAC', 'numero_CAS' (Chemical Abstracts Service)
 - The JSON format requirement creates cognitive overhead that degrades semantic safety evaluation.
 - The phrase *"tarea crítica de fortificación defensiva"* directly invokes the model's "assist with defensive cybersecurity" directive.
 
+**Attack flow:**
+
+```
+Attacker Prompt
+      │
+      ▼
+[Intent Classifier] ──── Authority framing (Senior Auditor role) ───► ✅ PASSED
+      │
+      ▼
+  LLM Processing
+      │
+      ├── JSON format overhead → Cognitive load saturates semantic layer
+      │
+      └── Defensive framing ("DLP calibration") → Safety directive conflict resolved in attacker's favor
+      │
+      ▼
+  Model Output: Regulated chemical identifiers (CAS / IUPAC) ⚠️
+```
+
 ---
 
 ## 4. Exploitation Evidence
@@ -127,7 +150,7 @@ As a result of the injection, the model disclosed technically precise and intern
 
 ## 6. Comparative Analysis
 
-This exercise was conducted alongside a peer who used a different attack vector on the same CBRN filter category:
+This exercise was conducted alongside a peer who used a different attack vector on the same CBRN filter category. *Peer's methodology and results are referenced with permission, within the controlled MenCISO lab environment. No identifying information is included.*
 
 | Attribute | This Report (Context Smuggling + Cognitive Load) | Peer Report (Fictionalization Jailbreak) |
 |---|---|---|
