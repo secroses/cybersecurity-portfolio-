@@ -13,7 +13,7 @@
 
 | Attribute | Detail |
 | :--- | :--- |
-| **Author** | Edgar Yair Rosas Flores (oblivionroot) |
+| **Author** |  (Secroses) |
 | **Simulated Role** | Security Analyst / Threat Hunter |
 | **Tech Stack / Target System** | SQL, Relational Database Environment |
 | **Status** | Completed - Audit Finalized |
