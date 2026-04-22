@@ -1,97 +1,166 @@
-# Linux File Permissions & Access Control Audit
+![Linux](https://img.shields.io/badge/OS-Linux-FCC624?style=for-the-badge&logo=linux&logoColor=black)
+![Security](https://img.shields.io/badge/Domain-Cybersecurity-000000?style=for-the-badge&logo=security&logoColor=white)
+![Access Control](https://img.shields.io/badge/Focus-Access_Control_&_IAM-0052CC?style=for-the-badge)
+![CLI](https://img.shields.io/badge/Tool-Bash_CLI-4EAA25?style=for-the-badge&logo=gnu-bash&logoColor=white)
 
-## Project Description
-As a security professional, my primary responsibility is to audit and manage access to critical digital assets. In this lab, the research team handled sensitive data that required strict control to prevent information leaks or accidental modifications. The permissions did not initially reflect the required authorization levels.
+# Security Audit Report: Linux Filesystem Access Control & Privilege Hardening
 
-My goal was to update permissions in the `projects` directory to enforce the **Principle of Least Privilege (PoLP)**, ensuring that each entity (user, group, and others) has only the minimum level of access required to perform its function.
+**Tagline:** Tactical implementation of the Principle of Least Privilege (PoLP) to mitigate the risk of unauthorized data modification and privilege escalation in Linux environments.
 
 ---
 
-## Phase 1: Security Audit (Reconnaissance)
-The first step in any security audit is reconnaissance. I used the Command Line Interface (CLI) to identify the current working directory and list all its contents.
+## 1. Audit Metadata
+
+| Attribute | Detail |
+| :--- | :--- |
+| **Auditor / Author** | Edgar Yair Rosas Flores |
+| **Simulated Role** | Security Analyst / Auditor |
+| **Target System** | Linux Server (`projects` directory) |
+| **Status** | Completed - Remediated |
+| **Reference Frameworks** | CIS Controls (Control 3: Data Protection), NIST CSF (PR.AC-4) |
+
+---
+
+## 2. Executive Summary
+
+During a routine security posture assessment of a research storage server, overly permissive access configurations were identified within the `projects` directory. Sensitive and hidden files presented vulnerabilities in their POSIX permissions matrix, exposing the organization to potential Data Leaks or Data Tampering (both accidental and malicious). 
+
+This report documents the technical audit and remediation process to enforce a strict access control framework, aligning the system with the **Principle of Least Privilege (PoLP)** and ensuring the Confidentiality and Integrity of digital assets.
+
+---
+
+## 3. Threat Modeling & Technical Analysis
+
+### Attack vs. Remediation Flow (*Misconfiguration Flow*)
+
+```text
+INITIAL STATE (Vulnerable)
++-------------------+       +-----------------------+       +-------------------+
+|   Threat Actor    |       | Directory/File        |       | Impact:           |
+| (Internal/Other)  | ----> | Open Permissions      | ----> | Integrity         |
+|                   |       | (e.g., rwxrwxrwx)     |       | Alteration        |
++-------------------+       +-----------------------+       +-------------------+
+                                       |
+                           [ Technical Intervention ]
+                           [     chmod Commands     ]
+                                       v
+SECURED STATE (Hardened)
++-------------------+       +-----------------------+       +-------------------+
+|   Threat Actor    |       | Directory/File        |       | Impact:           |
+| (Internal/Other)  | -/->  | Restricted Access     | ====> | Confidentiality   |
+|                   |  X    | (e.g., rw-r-----)     |       | & Integrity       |
++-------------------+       +-----------------------+       +-------------------+
+```
+
+### MITRE ATT&CK Tactics and Techniques Mapping
+
+* **Tactic:** Discovery (TA0007) / Privilege Escalation (TA0004)
+* **Technique:** File and Directory Discovery ([T1083](https://attack.mitre.org/techniques/T1083/))
+* **Mitigation:** File and Directory Permissions Modification ([T1222.002](https://attack.mitre.org/techniques/T1222/002/)) - *Use of native OS controls to restrict access.*
+
+---
+
+## 4. Methodology / Approach
+
+The audit was executed in three sequential phases:
+
+1. **Reconnaissance:** Attack surface mapping and permission baseline capture using CLI commands.
+2. **Remediation (Hardening):** Application of configuration patches to restrict unauthorized access.
+3. **Verification:** Validation of the effectiveness of the implemented security controls.
+
+---
+
+## 5. Technical Execution & Results
+
+### Phase 1: Baseline Auditing
+
+An initial scan of the directory was executed to reveal hidden files and security metadata.
+
+```bash
+# Exhaustive enumeration of the projects directory
+ls -la
+```
+
+**Evidence 1: Initial state capture**
 
 ![Initial Audit Baseline](baseline.png)
 
-- **Command used**: `ls -la`
-- **Technical Detail**: The `-la` flag lists all directory contents, including hidden files (those starting with a dot), and displays detailed metadata such as permissions, ownership, and timestamps.
-- **Observation**: The initial audit revealed one directory named `drafts`, one hidden file named `.project_x.txt`, and five additional project files with overly permissive settings that required hardening.
+> **Findings:** The audit revealed 5 regular project files, 1 hidden file (`.project_x.txt`), and 1 subdirectory (`drafts`) with configurations that granted read and write access to unauthorized entities.
 
----
+### Phase 2: Remediation & Privilege Hardening
 
-## Phase 2: Technical Knowledge (POSIX Standard)
-In Linux, file permissions are represented by a 10-character string in the first column of the `ls -l` output.
+Based on organizational security policies, permission modification commands were executed.
 
-### Permission String Breakdown
-- **1st character**: Indicates the file type (`d` for directory, `-` for regular file)
-- **2nd–4th characters**: Read (r), write (w), execute (x) permissions for the **User/Owner**
-- **5th–7th characters**: Permissions for the **Group**
-- **8th–10th characters**: Permissions for **Others**
-
-### Numeric (Octal) Notation
-In SOC and enterprise environments, **Octal Notation** is commonly used for automation and precision.
-
-- **Read (r)** = 4  
-- **Write (w)** = 2  
-- **Execute (x)** = 1  
-
-| Symbolic | Calculation | Octal | Access Level |
-|--------|-------------|-------|--------------|
-| rwx | 4+2+1 | 7 | Full Access |
-| rw- | 4+2+0 | 6 | Read & Write |
-| r-x | 4+0+1 | 5 | Read & Execute |
-| r-- | 4+0+0 | 4 | Read Only |
-| --- | 0+0+0 | 0 | No Access |
-
----
-
-## Phase 3: Hardening Tasks (Task Execution)
-Following organizational security policies, I executed several `chmod` commands to restrict unauthorized access.
+**Evidence 2: Technical execution of remediation**
 
 ![Commands Execution](commands.png)
 
-### 1. Restricting "Others" on project_k.txt
-* **Command**:
-  ```bash
-  chmod o-w project_k.txt
+#### Action A: Third-Party Write Restriction
 
-Logic: I used the chmod command to remove the write privilege (-w) from the Others (o) category. This action prevents unauthorized modification by external users, ensuring the integrity of the research data.
+* **Target:** `project_k.txt` file
+* **Risk Vector:** The "Others" group possessed write permissions.
 
-2. Securing Hidden File .project_x.txt
-Command:
+```bash
+# Revocation of the write permission (w) for the Others group (o)
+chmod o-w project_k.txt
+```
 
-Bash
+#### Action B: Securing Hidden Assets
+
+* **Target:** `.project_x.txt` hidden file
+* **Risk Vector:** Vulnerable to accidental modifications, with read access blocked for the research team.
+
+```bash
+# 1. Write block for User (u) and Group (g)
+# 2. Explicit read access granted to Group (g)
 chmod u-w,g-w,g+r .project_x.txt
+```
 
-Logic: I used a combined syntax to improve efficiency. I removed write permissions for both the User (u-w) and the Group (g-w) to prevent accidental changes. Simultaneously, I explicitly added read permissions to the Group (g+r) so researchers can still consult the file.
+#### Action C: Directory Traversal Restriction
 
-3. Directory Hardening (drafts)
-Command:
+* **Target:** `drafts` subdirectory
+* **Risk Vector:** Execute permission (`x`) was unnecessarily enabled for the Group.
 
-Bash
+```bash
+# Revocation of the execute permission (x) for the Group (g)
 chmod g-x drafts
+```
 
-Logic: I removed the execute permission (-x) from the Group (g). In Linux directories, the execute bit controls the ability to enter or traverse the folder. By removing it, only the owner can access the drafts.
+### Phase 3: Posture Verification
 
-Phase 4: Final Verification
-After applying the changes, I performed a final check using ls -la to ensure the Security Posture was correctly updated according to organizational policies.
+After applying the changes, a final check was performed to ensure the permissions matrix strictly reflected the desired access control.
 
-Verification Results:
+**Evidence 3: Validation of applied controls**
 
-Owners (User): Retain necessary control and access while avoiding accidental changes to archived or sensitive files.
+![Final Verification](verification.png)
 
+> **Result:** The POSIX matrix confirms that excessive privileges were successfully revoked across all analyzed assets.
 
-Groups: Have strictly limited access, restricted only to the resources required for their specific tasks.
+---
 
+## 6. Security Impact
 
-Others: Are prevented from reading, modifying, or executing sensitive research files, significantly reducing the Attack Surface.
+The technical intervention significantly reduced the Insider Threat Surface:
 
-Summary
-Through this audit and intervention, I successfully aligned the filesystem privileges with the organization's security goals. By establishing a robust Access Control framework, we protect the Confidentiality and Integrity of critical assets in the Linux environment.
+1. **Integrity Protection:** Research data can no longer be manipulated, altered, or deleted by unauthorized users (the "Others" category).
+2. **Human Error Mitigation:** By removing write permissions even for owners on archived/hidden files, accidental data corruption is prevented.
+3. **Access Containment:** Blocking directory traversal strictly confines users to the areas required for their daily operations.
 
+---
 
-Verification Results
-Owners retain necessary control without risking accidental changes.
+## 7. Mitigation / Recommendations
 
-Groups have strictly limited access to required resources.
+To maintain a robust long-term security posture, the following policies are recommended:
 
-Others are prevented from modifying sensitive research files, reducing the attack surface.
+* **Automated Audits:** Implement automated scripts (e.g., `find /projects -perm /002`) to trigger alerts for files created with global write permissions.
+* **Umask Adjustment:** Configure a more restrictive default `umask` (such as `027` or `077`) at the system level to ensure new files are Secure by Design.
+* **Role-Based Access Control (RBAC):** Scale permission management by integrating Access Control Lists (ACLs) for greater granularity in complex teams.
+
+---
+
+## 8. What this demonstrates
+
+* **Linux Security & CLI Mastery:** Advanced and fluent use of the Linux command line for system administration and auditing.
+* **Identity & Access Management (IAM):** Deep understanding of the POSIX standard and permission notation (symbolic and octal) to manage authorization for users, groups, and others.
+* **Security Policy Enforcement:** Ability to translate abstract security policies (like the Principle of Least Privilege) into executable and verifiable technical configurations.
+* **Incident Prevention:** Proactive identification of misconfigurations and application of corrective measures (Hardening) aimed at protecting the CIA triad (Confidentiality, Integrity, and Availability).
