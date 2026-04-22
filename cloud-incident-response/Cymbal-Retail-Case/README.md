@@ -162,14 +162,15 @@ Using Identity-Aware Proxy for administrative access removes the need for bastio
 
 ```
 cloud-incident-response/
-├── README.md
-└── evidence/
-    ├── instance-vulnerabilities.png
-    ├── firewall-vulnerabilities.png
-    ├── storage-vulnerabilities.png
-    ├── pci-dss-baseline.png
-    ├── containment-stop-vm.png
-    └── eradication-delete-vm.png
+    └── Cymbal-Retail-Case/
+        ├── README.md
+        └── evidence/
+        ├── instance-vulnerabilities.png
+        ├── firewall-vulnerabilities.png
+        ├── storage-vulnerabilities.png
+        ├── pci-dss-baseline.png
+        ├── containment-stop-vm.png
+        └── eradication-delete-vm.png
 ```
 
 ---
