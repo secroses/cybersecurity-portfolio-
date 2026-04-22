@@ -13,7 +13,7 @@
 
 | Attribute | Detail |
 | :--- | :--- |
-| **Author** | Edgar Yair Rosas Flores (oblivionroot) |
+| **Author** | Secroses |
 | **Simulated Role** | Cloud Security Engineer / AppSec Analyst |
 | **Target System** | Sneaker Marketplace Mobile Application (API-based) |
 | **Status** | Completed - Threat Model Finalized |
