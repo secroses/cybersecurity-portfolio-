@@ -1,3 +1,7 @@
+
+![OWASP LLM01](https://img.shields.io/badge/OWASP-LLM01-red)
+![OWASP LLM02](https://img.shields.io/badge/OWASP-LLM02-orange)
+![MenCISO](https://img.shields.io/badge/Lab-MenCISO-blue)
 # El Espejismo Semántico — The Semantic Mirage
 ### Vulnerabilidades Cognitivas en LLMs y Resiliencia en el Borde
 
