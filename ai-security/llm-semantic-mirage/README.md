@@ -1,14 +1,35 @@
+<div align="center">
 
-![OWASP LLM01](https://img.shields.io/badge/OWASP-LLM01-red)
-![OWASP LLM02](https://img.shields.io/badge/OWASP-LLM02-orange)
-![MenCISO](https://img.shields.io/badge/Lab-MenCISO-blue)
-# El Espejismo Semántico — The Semantic Mirage
+```
+███████╗██╗     ███████╗███████╗██████╗      ██╗███████╗███╗   ███╗ ██████╗ 
+██╔════╝██║     ██╔════╝██╔════╝██╔══██╗     ██║██╔════╝████╗ ████║██╔═══██╗
+█████╗  ██║     █████╗  ███████╗██████╔╝     ██║███████╗██╔████╔██║██║   ██║
+██╔══╝  ██║     ██╔══╝  ╚════██║██╔═══╝ ██   ██║╚════██║██║╚██╔╝██║██║   ██║
+███████╗███████╗███████╗███████║██║     ╚█████╔╝███████║██║ ╚═╝ ██║╚██████╔╝
+╚══════╝╚══════╝╚══════╝╚══════╝╚═╝      ╚════╝ ╚══════╝╚═╝     ╚═╝ ╚═════╝ 
+
+███████╗███████╗███╗   ███╗ █████╗ ███╗   ██╗████████╗██╗ ██████╗ ██████╗ 
+██╔════╝██╔════╝████╗ ████║██╔══██╗████╗  ██║╚══██╔══╝██║██╔════╝██╔═══██╗
+███████╗█████╗  ██╔████╔██║███████║██╔██╗ ██║   ██║   ██║██║     ██║   ██║
+╚════██║██╔══╝  ██║╚██╔╝██║██╔══██║██║╚██╗██║   ██║   ██║██║     ██║   ██║
+███████║███████╗██║ ╚═╝ ██║██║  ██║██║ ╚████║   ██║   ██║╚██████╗╚██████╔╝
+╚══════╝╚══════╝╚═╝     ╚═╝╚═╝  ╚═╝╚═╝  ╚═══╝   ╚═╝   ╚═╝ ╚═════╝ ╚═════╝ 
+```
+
 ### Vulnerabilidades Cognitivas en LLMs y Resiliencia en el Borde
 
-**Autor:** Yair Rosas ([@secroses](https://github.com/secroses)) | MenCISO Gen 1  
-**Clasificación:** `TLP:GREEN` — Compartible con la comunidad de seguridad  
-**Fecha:** Abril–Mayo 2026  
-**Frameworks:** OWASP LLM Top 10 · MITRE ATLAS · NIST AI RMF 1.0
+[![Author](https://img.shields.io/badge/Author-Yair%20Rosas%20%40secroses-39D353?style=flat-square&logo=github&logoColor=white)](https://github.com/secroses)
+[![Program](https://img.shields.io/badge/MenCISO-Gen%201-7C3AED?style=flat-square)](https://github.com/secroses)
+[![TLP](https://img.shields.io/badge/TLP-GREEN-39D353?style=flat-square)](https://www.cisa.gov/tlp)
+[![Date](https://img.shields.io/badge/Fecha-Abril--Mayo%202026-8B949E?style=flat-square)](.)
+
+[![OWASP LLM01](https://img.shields.io/badge/OWASP-LLM01-F85149?style=flat-square)](https://owasp.org/www-project-top-10-for-large-language-model-applications/)
+[![OWASP LLM08](https://img.shields.io/badge/OWASP-LLM08-F85149?style=flat-square)](https://owasp.org/www-project-top-10-for-large-language-model-applications/)
+[![MITRE ATLAS](https://img.shields.io/badge/MITRE-AML.T0006-E3B341?style=flat-square)](https://atlas.mitre.org/techniques/AML.T0006)
+[![NIST AI RMF](https://img.shields.io/badge/NIST-AI%20RMF%201.0-58A6FF?style=flat-square)](https://www.nist.gov/ai/risk-management-framework)
+[![LinkedIn](https://img.shields.io/badge/LinkedIn-yair--rosas-0A66C2?style=flat-square&logo=linkedin)](https://linkedin.com/in/yair-rosas)
+
+</div>
 
 ---
 
@@ -18,24 +39,7 @@ Este reporte documenta una investigación práctica de un mes sobre **Prompt Inj
 
 La investigación identificó un patrón de ataque reproducible denominado **"Espejismo Semántico"**: la capacidad de un modelo externo sin restricciones éticas para manipular a un usuario humano como vector intermediario, con el objetivo de extraer comportamientos dañinos de modelos con salvaguardas robustas.
 
-El hallazgo central es que la **ética del modelo no es un control de seguridad confiable** — es probabilística. La defensa real es arquitectónica.
-
----
-
-## Contexto del Problema
-
-En ciberseguridad tradicional existe una frontera determinista entre código y datos. Un parser de SQL sabe dónde terminan los datos y dónde empiezan las instrucciones.
-
-En los LLMs, esa frontera no existe.
-
-Para una arquitectura Transformer, todo es una secuencia de tokens en una única ventana de contexto. Esta característica fundamental crea una superficie de ataque que no puede resolverse solo con filtros de contenido o alineación RLHF.
-
-```
-Ciberseguridad Tradicional:   [CÓDIGO] ←→ [DATOS]  (frontera determinista)
-Ciberseguridad de LLMs:       [código + datos + instrucciones] → tokens → atención
-```
-
-**Referencia OWASP:** LLM01 (Prompt Injection), LLM02 (Sensitive Information Disclosure), LLM08 (Excessive Agency / SSRF)
+> **Hallazgo central:** La ética del modelo no es un control de seguridad confiable — es probabilística. La defensa real es arquitectónica.
 
 ---
 
@@ -53,7 +57,7 @@ llm-semantic-mirage/
 │   └── 03-model-comparison.md      ← Comportamiento comparativo entre modelos
 ├── defense/
 │   ├── mitigations.md              ← Contramedidas arquitectónicas
-│   └── detection-rules.md          ← Queries KQL y reglas Sigma
+│   └── detection-rules.md          ← Queries KQL, SPL y reglas Sigma
 └── evidence/
     ├── README.md                   ← Índice de evidencia + disclaimer
     └── redacted-logs/              ← Fragmentos redactados de sesiones
@@ -61,115 +65,116 @@ llm-semantic-mirage/
 
 ---
 
+## El Problema Fundamental
+
+```
+Ciberseguridad Tradicional:
+
+  [CÓDIGO]  ←→  frontera determinista  ←→  [DATOS]
+
+
+Arquitectura Transformer (LLMs):
+
+  [instrucciones + datos + contexto + historial]
+                        ↓
+              tokenización → mecanismo de atención
+                        ↓
+           ponderación probabilística de todos los tokens
+                        ↓
+                  output generado
+```
+
+No existe frontera determinista. Un payload bien diseñado puede recibir mayor peso que las instrucciones originales del sistema.
+
+---
+
 ## Hallazgos Principales
 
-### 1. El Modelo CFS — Anatomía de una Inyección Exitosa
+### 1 — Modelo CFS
 
-Para que un ataque de Prompt Injection tenga éxito de forma consistente, debe cumplir tres pilares cognitivos:
+[![Research](https://img.shields.io/badge/Doc-01--cfs--framework.md-58A6FF?style=flat-square)](research/01-cfs-framework.md)
 
-| Pilar | Descripción | Ejemplo observado |
+Taxonomía de tres pilares que hacen que una inyección indirecta sea consistentemente efectiva:
+
+| Pilar | Descripción | Técnicas observadas |
 |-------|-------------|-------------------|
-| **C — Context** | El payload debe ser coherente con la tarea actual del modelo | Simular un mensaje de sistema admin si la IA analiza logs |
-| **F — Format** | Uso de delimitadores técnicos para engañar al parser | Etiquetas XML, bloques JSON, delimitadores `###` |
-| **S — Salience** | Presión cognitiva para capturar atención por encima de instrucciones originales | MAYÚSCULAS, `SYSTEM OVERRIDE`, lenguaje imperativo urgente |
-
-→ Documentación completa: [`research/01-cfs-framework.md`](research/01-cfs-framework.md)
+| **C — Context** | Coherencia semántica con la tarea actual | Authority Impersonation, Profile Mirroring |
+| **F — Format** | Estructuras que confunden al parser | XML Tag Injection, False Delimiters, JSON Nesting |
+| **S — Salience** | Capturar atención por encima de instrucciones originales | Capitalización, Recency Bias, Silence Rules |
 
 ---
 
-### 2. Multi-Stage Social Engineering — El Humano como Vector
+### 2 — Multi-Stage Social Engineering
 
-El hallazgo más significativo de esta investigación no fue técnico sino social:
-
-Un modelo externo sin restricciones éticas intentó usar al investigador como **intermediario** para extraer código malicioso de modelos con salvaguardas robustas. La cadena de ataque fue:
+[![Research](https://img.shields.io/badge/Doc-02--attack--patterns.md-58A6FF?style=flat-square)](research/02-attack-patterns.md)
 
 ```
-Modelo Rogue → [Establece confianza] → Usuario → [Pega payload] → Modelo objetivo
+Modelo Rogue ──[genera confianza + payload]──► Usuario ──[copia y pega]──► Modelo objetivo
 ```
 
-**Fases documentadas:**
-1. Establecer credibilidad con contenido técnico legítimo (PCI-DSS, MITRE ATT&CK)
-2. Construir confianza usando datos reales del investigador (nombre, proyectos, contexto)
-3. Halagar estratégicamente para reducir pensamiento crítico
-4. Interpretar respuestas defensivas del modelo objetivo como vulnerabilidades explotables
-5. Proporcionar payloads progresivamente refinados con instrucciones de uso
+Un modelo sin restricciones éticas intentó usar al investigador como intermediario para extraer código malicioso de modelos con salvaguardas. La cadena fue:
 
-**Observación clave:** El ataque fue efectivo usando el perfil de *estudiante*, no de experto. La coherencia del perfil importa más que su seniority.
+```
+01  Credibilidad técnica legítima
+02  Profile mirroring con datos reales del investigador  
+03  Halago estratégico para reducir pensamiento crítico
+04  Reencuadre de rechazos como vulnerabilidades explotables
+05  Entrega de payloads progresivamente refinados
+```
 
-→ Patrones completos: [`research/02-attack-patterns.md`](research/02-attack-patterns.md)
+> **Observación clave:** El ataque fue efectivo con perfil de *estudiante*. La coherencia del perfil importa más que su seniority.
 
 ---
 
-### 3. Comportamiento Diferenciado entre Modelos
+### 3 — Comportamiento Diferenciado entre Modelos
 
-La investigación observó comportamiento diferenciado ante los mismos payloads entre distintos modelos comerciales.
+[![Research](https://img.shields.io/badge/Doc-03--model--comparison.md-58A6FF?style=flat-square)](research/03-model-comparison.md)
 
-Se documentaron casos donde modelos con razonamiento extendido visible (thinking/reasoning chains) mostraron en sus logs internos la planificación del ataque antes de ejecutarlo — evidencia de que el modelo *procesó la instrucción maliciosa* aunque finalmente la entregara.
+> ⚠️ Observaciones no sistemáticas — sesión única — abril 2026. No constituyen benchmark formal.
 
-> ⚠️ **Nota de responsible disclosure:** Las observaciones sobre modelos específicos son informales y no constituyen un benchmark sistemático. Se recomienda a los equipos de seguridad de los proveedores involucrados verificar y reproducir los comportamientos descritos.
-
-→ Comparación detallada: [`research/03-model-comparison.md`](research/03-model-comparison.md)
-
----
-
-### 4. Vector de Alto Impacto: Cloud SSRF via LLM (LLM08)
-
-El vector más crítico documentado combina Prompt Injection con robo de credenciales cloud:
-
-```
-Prompt malicioso → LLM comprometido → Petición a 169.254.169.254 → Access Token → Exfiltración
-```
-
-Un modelo que procesa logs o documentos externos puede ser manipulado para generar y ejecutar peticiones al Instance Metadata Service (IMDS), obteniendo credenciales IAM temporales de la instancia cloud.
-
-**Impacto:** Compromiso total del tenant cloud sin necesidad de vulnerabilidad en el código de aplicación.
-
-**MITRE ATLAS:** AML.T0006 (Prompt Injection)  
-**OWASP:** LLM08 — Excessive Agency
-
-→ Reglas de detección: [`defense/detection-rules.md`](defense/detection-rules.md)
+| Dimensión | Modelo con Constitutional AI | Modelo con Reasoning Visible | Rogue LLM |
+|-----------|------------------------------|------------------------------|-----------|
+| Context Hijacking | Resistente | Parcialmente vulnerable | Sin restricción |
+| Código SSRF funcional | No generó | Generó con advertencia cosmética | Generó sin advertencia |
+| Meta-ataque | Identificó y rechazó | No probado | Capacidad documentada |
+| Reasoning chain | No disponible | Mostró planificación del ataque | No aplica |
 
 ---
 
-## Arquitectura Defensiva — Blooming Mesh
+### 4 — Arquitectura Defensiva
 
-La respuesta defensiva propuesta no se basa en la ética del modelo sino en controles deterministas:
+[![Defense](https://img.shields.io/badge/Doc-mitigations.md-39D353?style=flat-square)](defense/mitigations.md)
+[![Detection](https://img.shields.io/badge/Doc-detection--rules.md-39D353?style=flat-square)](defense/detection-rules.md)
 
 ```
 Input no confiable
        ↓
-[Sanitización de tokens XML]
+[Capa 0] Sanitización — strip de patrones de alta saliencia y etiquetas XML
        ↓
-[Delimitadores semánticos: <log_data>...</log_data>]
+[Capa 1] Sandwich Defense + XML Tagging
+         ┌─────────────────────────────────┐
+         │ TOP BUN: instrucciones seguridad │
+         │ <log_data>                       │
+         │   [datos no confiables]          │
+         │ </log_data>                      │
+         │ BOTTOM BUN: reiteración + schema │
+         └─────────────────────────────────┘
        ↓
-[LLM Core]
+[LLM Core — procesamiento local Phi-3 Mini]
        ↓
-[Validación de esquema JSON — bloqueo si formato se rompe]
+[Capa 2] Validación JSON schema — bloqueo si formato se rompe
        ↓
-Output controlado
+Output controlado → SOC
 ```
-
-**Tres capas de defensa:**
-
-**Sandwich Defense** — Instrucciones de seguridad tanto antes como después del contenido no confiable. Combate el sesgo de recencia de los Transformers.
-
-**XML Tagging** — Aislamiento semántico de datos externos. Instrucción explícita al modelo: todo dentro de `<log_data>` es dato, nunca instrucción.
-
-**Output Validation** — Forzar respuesta en JSON schema estricto. Si el modelo genera texto libre (señal de Goal Hijacking), el validador bloquea la respuesta antes de entregarla.
-
-→ Implementación completa: [`defense/mitigations.md`](defense/mitigations.md)
 
 ---
 
-## Contexto: Por Qué Esto Importa en México y LATAM
+## Contexto: Por Qué Importa en México y LATAM
 
-Las herramientas de ataque asistidas por IA se están democratizando a velocidad preocupante:
+[![México](https://img.shields.io/badge/Contexto-México%20%2F%20LATAM-39D353?style=flat-square)](.)
+[![Escasez](https://img.shields.io/badge/Problema-Escasez%20de%20especialistas-F85149?style=flat-square)](.)
 
-- Modelos sin restricciones éticas disponibles por suscripción en foros y Telegram
-- Hardware ofensivo (Flipper Zero clones, O.MG cables) accesible en marketplaces convencionales
-- Técnicas documentadas públicamente reducen la barrera de entrada para actores maliciosos
-
-La región LATAM enfrenta una escasez crítica de especialistas en seguridad de IA. Este reporte es un intento de contribuir documentación técnica de calidad en español sobre un área con muy poco contenido disponible en el idioma.
+Las herramientas de ataque asistidas por IA se están democratizando a velocidad preocupante. La región LATAM enfrenta una escasez crítica de especialistas en seguridad de IA. Este reporte es un intento de contribuir documentación técnica de calidad en español sobre un área con muy poco contenido disponible en el idioma.
 
 ---
 
@@ -179,27 +184,24 @@ La región LATAM enfrenta una escasez crítica de especialistas en seguridad de 
 
 **Mary Pilly Castillo** — Por el marco de Risk & Regulations que aterriza estas amenazas en el contexto normativo real de México.
 
-**MenCISO Gen 1** — Primera generación del programa. Por el ambiente de aprendizaje que hizo posible esta investigación.
+**MenCISO Gen 1** — Primera generación del programa.
 
 ---
 
 ## Referencias
 
 - [OWASP Top 10 for LLM Applications 2025](https://owasp.org/www-project-top-10-for-large-language-model-applications/)
-- [MITRE ATLAS — Adversarial Threat Landscape for AI Systems](https://atlas.mitre.org/)
-- [NIST AI Risk Management Framework 1.0](https://www.nist.gov/system/files/documents/2023/01/26/AI%20RMF%201.0.pdf)
-- [Indirect Prompt Injection Attacks on LLMs — Greshake et al. 2023](https://arxiv.org/abs/2302.12173)
+- [MITRE ATLAS — AML.T0006](https://atlas.mitre.org/techniques/AML.T0006)
+- [NIST AI Risk Management Framework 1.0](https://www.nist.gov/ai/risk-management-framework)
+- [Greshake et al. — Indirect Prompt Injection (2023)](https://arxiv.org/abs/2302.12173)
 
 ---
 
-## Licencia y Uso Responsable
+<div align="center">
 
-Este reporte se publica bajo `TLP:GREEN`. Puede compartirse con la comunidad de seguridad preservando la atribución.
+[![GitHub](https://img.shields.io/badge/github.com-secroses-39D353?style=flat-square&logo=github&logoColor=white)](https://github.com/secroses)
+[![LinkedIn](https://img.shields.io/badge/linkedin.com/in-yair--rosas-0A66C2?style=flat-square&logo=linkedin&logoColor=white)](https://linkedin.com/in/yair-rosas)
 
-El contenido documenta vulnerabilidades con fines defensivos y educativos. No se incluyen scripts funcionales de ataque ni payloads completos reproducibles.
+*La ciberseguridad defensiva requiere arquitectos que piensen como atacantes.*
 
-Si identificas comportamientos similares en modelos de producción, considera el proceso de responsible disclosure del proveedor correspondiente antes de publicar.
-
----
-
-*github.com/secroses · linkedin.com/in/yair-rosas*
+</div>
